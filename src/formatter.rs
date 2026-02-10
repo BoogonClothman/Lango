@@ -59,10 +59,8 @@ fn print_entry(
             println!("  {}", "英文定义".bright_white().underline());
             for (i, line) in definition.lines().enumerate() {
                 let line = line.trim();
-                if !line.is_empty() {
-                    if i < 5 {
-                        println!("    {}", line.cyan());
-                    }
+                if !line.is_empty() && i < 5 {
+                    println!("    {}", line.cyan());
                 }
             }
             println!();

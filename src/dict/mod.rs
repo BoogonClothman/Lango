@@ -5,6 +5,7 @@ pub mod ecdict;
 pub mod online;
 
 /// 词典后端 trait
+#[allow(dead_code)]
 pub trait Dictionary {
     fn lookup(&self, query: &str) -> Result<Option<DictionaryEntry>>;
     fn fuzzy_search(&self, query: &str, limit: usize) -> Result<Vec<String>>;

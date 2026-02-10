@@ -7,8 +7,10 @@ pub struct DictionaryEntry {
     pub phonetic: Option<String>,
     pub translation: Option<String>,
     pub definition: Option<String>,
+    #[allow(dead_code)]
     pub pos: Option<String>,
     pub exchange: Option<String>,
+    #[allow(dead_code)]
     pub tag: Option<String>,
     pub examples: Vec<Example>,
     pub source: DataSource,
