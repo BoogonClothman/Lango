@@ -1,0 +1,24 @@
+[package]
+name = "lango"
+version = "0.1.0"
+edition = "2024"
+authors = ["BoogonClothman"]
+description = "Fast CLI English dictionary tool powered by local ECDICT database"
+license = "MIT"
+repository = "https://github.com/BoogonClothman/Lango"
+keywords = ["dictionary", "cli", "english", "ecdict", "offline"]
+categories = ["command-line-utilities", "text-processing"]
+rust-version = "1.85"
+
+[dependencies]
+clap = { version = "4", features = ["derive"] }
+rusqlite = { version = "0.32", features = ["bundled"] }
+reqwest = { version = "0.12", features = ["blocking", "json"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+anyhow = "1"
+colored = "2"
+indicatif = "0.17"
+strsim = "0.11"
+dirs = "6"
+zip = "2"

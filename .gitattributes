@@ -1,0 +1,18 @@
+# 自动处理换行符
+* text=auto eol=lf
+
+# 确保特定文件使用 LF
+*.rs text eol=lf
+*.toml text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+
+# 二进制文件不处理
+*.db binary
+*.zip binary
+*.exe binary
+*.dll binary
+*.png binary
+*.jpg binary
