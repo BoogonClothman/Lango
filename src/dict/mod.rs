@@ -1,5 +1,5 @@
-use anyhow::Result;
 use crate::types::{DictionaryEntry, LookupOptions, LookupResult};
+use anyhow::Result;
 
 pub mod ecdict;
 pub mod online;
@@ -19,7 +19,10 @@ pub struct DictionaryService {
 }
 
 impl DictionaryService {
-    pub fn new(local: Option<ecdict::EcdictDictionary>, online: Option<online::OnlineDictionary>) -> Self {
+    pub fn new(
+        local: Option<ecdict::EcdictDictionary>,
+        online: Option<online::OnlineDictionary>,
+    ) -> Self {
         Self { local, online }
     }
 

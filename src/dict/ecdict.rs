@@ -2,8 +2,8 @@ use anyhow::{Context, Result};
 use rusqlite::Connection;
 use std::path::PathBuf;
 
-use crate::types::{DataSource, DictionaryEntry};
 use super::Dictionary;
+use crate::types::{DataSource, DictionaryEntry};
 
 /// ECDICT 本地 SQLite 词典
 pub struct EcdictDictionary {
@@ -26,7 +26,7 @@ impl Dictionary for EcdictDictionary {
     fn lookup(&self, query: &str) -> Result<Option<DictionaryEntry>> {
         let mut stmt = self.conn.prepare_cached(
             "SELECT word, phonetic, definition, translation, pos, exchange, tag \
-             FROM stardict WHERE word = ?1 COLLATE NOCASE LIMIT 1"
+             FROM stardict WHERE word = ?1 COLLATE NOCASE LIMIT 1",
         )?;
 
         let result = stmt.query_row([query], |row| {
@@ -56,10 +56,12 @@ impl Dictionary for EcdictDictionary {
             "SELECT word FROM stardict WHERE word LIKE ?1 COLLATE NOCASE ORDER BY length(word) LIMIT ?2"
         )?;
         let prefix_pattern = format!("{}%", query);
-        let mut results: Vec<String> = stmt.query_map(
-            rusqlite::params![prefix_pattern, limit * 2],
-            |row| row.get(0),
-        )?.filter_map(|r| r.ok()).collect();
+        let mut results: Vec<String> = stmt
+            .query_map(rusqlite::params![prefix_pattern, limit * 2], |row| {
+                row.get(0)
+            })?
+            .filter_map(|r| r.ok())
+            .collect();
 
         // 如果前缀匹配不够，用 LIKE 模糊搜索补充
         if results.len() < limit {
@@ -67,12 +69,13 @@ impl Dictionary for EcdictDictionary {
                 "SELECT word FROM stardict WHERE word LIKE ?1 COLLATE NOCASE ORDER BY length(word) LIMIT ?2"
             )?;
             let fuzzy_pattern = format!("%{}%", query);
-            let extra: Vec<String> = stmt2.query_map(
-                rusqlite::params![fuzzy_pattern, limit * 3],
-                |row| row.get(0),
-            )?.filter_map(|r| r.ok())
-            .filter(|w: &String| !results.contains(w))
-            .collect();
+            let extra: Vec<String> = stmt2
+                .query_map(rusqlite::params![fuzzy_pattern, limit * 3], |row| {
+                    row.get(0)
+                })?
+                .filter_map(|r| r.ok())
+                .filter(|w: &String| !results.contains(w))
+                .collect();
             results.extend(extra);
         }
 

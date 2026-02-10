@@ -96,8 +96,7 @@ fn download_db(dest: &PathBuf) -> Result<()> {
         .user_agent("lango-cli/0.1")
         .build()?;
 
-    let resp = client.get(url).send()
-        .context("下载失败，请检查网络连接")?;
+    let resp = client.get(url).send().context("下载失败，请检查网络连接")?;
 
     if !resp.status().is_success() {
         anyhow::bail!("下载失败: HTTP {}", resp.status());
@@ -106,10 +105,12 @@ fn download_db(dest: &PathBuf) -> Result<()> {
     let total_size = resp.content_length().unwrap_or(0);
 
     let pb = ProgressBar::new(total_size);
-    pb.set_style(ProgressStyle::default_bar()
-        .template("  [{bar:40.cyan/blue}] {bytes}/{total_bytes} ({eta})")
-        .unwrap()
-        .progress_chars("=>-"));
+    pb.set_style(
+        ProgressStyle::default_bar()
+            .template("  [{bar:40.cyan/blue}] {bytes}/{total_bytes} ({eta})")
+            .unwrap()
+            .progress_chars("=>-"),
+    );
 
     // 下载到临时 zip 文件
     let zip_path = dest.with_extension("zip.tmp");
@@ -168,11 +169,11 @@ fn extract_zip(zip_path: &PathBuf, dest: &PathBuf) -> Result<()> {
 /// 验证 SQLite 数据库文件
 fn validate_db(path: &PathBuf) -> Result<()> {
     let conn = rusqlite::Connection::open(path)?;
-    let count: i64 = conn.query_row(
-        "SELECT COUNT(*) FROM stardict LIMIT 1",
-        [],
-        |row| row.get(0),
-    ).context("词库文件损坏或格式不正确")?;
+    let count: i64 = conn
+        .query_row("SELECT COUNT(*) FROM stardict LIMIT 1", [], |row| {
+            row.get(0)
+        })
+        .context("词库文件损坏或格式不正确")?;
 
     if count == 0 {
         anyhow::bail!("词库为空");

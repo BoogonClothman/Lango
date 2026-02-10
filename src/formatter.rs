@@ -4,7 +4,13 @@ use std::time::Duration;
 use crate::types::{DictionaryEntry, LookupResult};
 
 /// 格式化并输出查询结果
-pub fn print_result(result: &LookupResult, query: &str, show_english: bool, show_examples: bool, elapsed: Duration) {
+pub fn print_result(
+    result: &LookupResult,
+    query: &str,
+    show_english: bool,
+    show_examples: bool,
+    elapsed: Duration,
+) {
     match result {
         LookupResult::Found(entry) => print_entry(entry, show_english, show_examples, elapsed),
         LookupResult::NotFound => print_not_found(query),
@@ -12,7 +18,12 @@ pub fn print_result(result: &LookupResult, query: &str, show_english: bool, show
     }
 }
 
-fn print_entry(entry: &DictionaryEntry, show_english: bool, show_examples: bool, elapsed: Duration) {
+fn print_entry(
+    entry: &DictionaryEntry,
+    show_english: bool,
+    show_examples: bool,
+    elapsed: Duration,
+) {
     println!();
 
     // 单词 + 音标
@@ -84,7 +95,12 @@ fn print_entry(entry: &DictionaryEntry, show_english: bool, show_examples: bool,
 
     // 来源 + 耗时
     let ms = elapsed.as_micros() as f64 / 1000.0;
-    println!("  {} {} {}", "──".dimmed(), entry.source.to_string().dimmed(), format!("· {:.1}ms", ms).dimmed());
+    println!(
+        "  {} {} {}",
+        "──".dimmed(),
+        entry.source.to_string().dimmed(),
+        format!("· {:.1}ms", ms).dimmed()
+    );
     println!();
 }
 

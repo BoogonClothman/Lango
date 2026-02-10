@@ -1,8 +1,8 @@
 use anyhow::Result;
 use serde::Deserialize;
 
-use crate::types::{DataSource, DictionaryEntry, Example};
 use super::Dictionary;
+use crate::types::{DataSource, DictionaryEntry, Example};
 
 /// Free Dictionary API 在线词典
 pub struct OnlineDictionary {
@@ -50,7 +50,10 @@ impl OnlineDictionary {
 
         // 提取音标
         let phonetic = first.phonetic.or_else(|| {
-            first.phonetics.as_ref()?.iter()
+            first
+                .phonetics
+                .as_ref()?
+                .iter()
                 .find_map(|p| p.text.clone())
         });
 
@@ -110,10 +113,7 @@ impl OnlineDictionary {
 
 impl Dictionary for OnlineDictionary {
     fn lookup(&self, query: &str) -> Result<Option<DictionaryEntry>> {
-        let url = format!(
-            "https://api.dictionaryapi.dev/api/v2/entries/en/{}",
-            query
-        );
+        let url = format!("https://api.dictionaryapi.dev/api/v2/entries/en/{}", query);
 
         let resp = match self.client.get(&url).send() {
             Ok(r) => r,

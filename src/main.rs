@@ -72,7 +72,13 @@ fn main() -> Result<()> {
     let elapsed = start.elapsed();
 
     // 格式化输出
-    formatter::print_result(&result, &query, options.show_english, options.show_examples, elapsed);
+    formatter::print_result(
+        &result,
+        &query,
+        options.show_english,
+        options.show_examples,
+        elapsed,
+    );
 
     Ok(())
 }
