@@ -1,5 +1,7 @@
 [target.x86_64-pc-windows-msvc]
-rustflags = ["-C", "target-feature=+crt-static"]
+# 本地开发：动态链接，减小体积，加快编译
 
-[target.i686-pc-windows-msvc]
+[target.x86_64-pc-windows-gnu]
+# 云端发布：静态链接，零依赖
+linker = "x86_64-w64-mingw32-gcc"
 rustflags = ["-C", "target-feature=+crt-static"]

@@ -41,7 +41,12 @@ jobs:
       run: choco install mingw -y
 
     - name: Build
-      run: cargo build --release --target ${{ matrix.target }}
+      shell: bash
+      run: |
+        if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+          export PATH="/c/ProgramData/chocolatey/lib/mingw/tools/install/mingw64/bin:$PATH"
+        fi
+        cargo build --release --target ${{ matrix.target }}
 
     - name: Package
       shell: bash

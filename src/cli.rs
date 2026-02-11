@@ -6,7 +6,7 @@ use std::path::PathBuf;
     name = "lango",
     about = "快速英语词典查询工具",
     version,
-    after_help = "示例:\n  lango hello              查询单词\n  lango \"machine learning\"  查询词组\n  lango -e hello            显示英文释义\n  lango -x hello            显示例句\n  lango --online hello      强制在线查询"
+    after_help = "示例:\n  lango hello              查询单词\n  lango \"machine learning\"  查询词组\n  lango -e hello            显示英文释义\n  lango -x hello            显示例句\n  lango --online hello      强制在线查询(默认显示英文释义)"
 )]
 pub struct Cli {
     #[command(subcommand)]

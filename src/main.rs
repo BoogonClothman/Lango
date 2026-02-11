@@ -59,8 +59,11 @@ fn main() -> Result<()> {
     let online = Some(OnlineDictionary::new());
     let service = DictionaryService::new(local, online);
 
+    // 在线模式默认显示英文定义（因为在线API无中文翻译）
+    let show_english = cli.show_english || cli.force_online;
+    
     let options = LookupOptions {
-        show_english: cli.show_english,
+        show_english,
         show_examples: cli.show_examples,
         force_online: cli.force_online,
         max_examples: cli.max_examples,
