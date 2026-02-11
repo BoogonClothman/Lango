@@ -61,7 +61,7 @@ fn main() -> Result<()> {
 
     // 在线模式默认显示英文定义（因为在线API无中文翻译）
     let show_english = cli.show_english || cli.force_online;
-    
+
     let options = LookupOptions {
         show_english,
         show_examples: cli.show_examples,
