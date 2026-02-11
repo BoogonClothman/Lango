@@ -1,6 +1,6 @@
 [package]
 name = "lango"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 authors = ["BoogonClothman"]
 description = "Fast CLI English dictionary tool powered by local ECDICT database"
